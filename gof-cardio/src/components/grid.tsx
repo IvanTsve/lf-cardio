@@ -4,7 +4,6 @@ import { useState } from "react";
 import { GridSize } from "../types/types";
 function Grid() {
     const [size, setSize] = useState([] as GridSize);
-    const [cache, setCache] = useState([] as GridSize);
 
     function setGridSize(data: number) {
         if(data) {
@@ -21,9 +20,6 @@ function Grid() {
     function setIsAlive(index: number, cellIndex: number) {
         
         setSize(prev => {
-            return prev.map((row, i) => i === index ? row.map((cell, j) => j === cellIndex ? !cell : cell) : row );
-        });
-        setCache(prev => {
             return prev.map((row, i) => i === index ? row.map((cell, j) => j === cellIndex ? !cell : cell) : row );
         });
     }
@@ -59,13 +55,13 @@ function Grid() {
         const arr = checkSides(row, cellIndex);
         let isAlive = arr.filter(el => el == true).length > 1 && arr.filter(el => el == true).length < 4; 
         if (isAlive) {
-            setCache(prev => {
+            setSize(prev => {
                 prev = size.map((r, i) => i === row ? r.map((cell, j) => j === cellIndex ? true : cell) : r );
                 return prev;
             });
             
         } else {
-            setCache(prev => {
+            setSize(prev => {
                 prev = size.map((r, i) => i === row ? r.map((cell, j) => j === cellIndex ? cell : false) : r );
                 return prev;
             });
